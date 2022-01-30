@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.segundaprova.fragments.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_cadastraFragment"
+            app:destination="@id/cadastraFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_alteraFragment"
+            app:destination="@id/alteraFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_sobreFragment"
+            app:destination="@id/sobreFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cadastraFragment"
+        android:name="com.example.segundaprova.fragments.cadastra.CadastraFragment"
+        android:label="Cadastro de Estado"
+        tools:layout="@layout/fragment_cadastra" >
+        <action
+            android:id="@+id/action_cadastraFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/alteraFragment"
+        android:name="com.example.segundaprova.fragments.altera.AlteraFragment"
+        android:label="Atualizar estado" >
+        <action
+            android:id="@+id/action_alteraFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <argument
+            android:name="currentEstado"
+            app:argType="com.example.segundaprova.model.Estado" />
+    </fragment>
+    <fragment
+        android:id="@+id/sobreFragment"
+        android:name="com.example.segundaprova.SobreFragment"
+        android:label="Sobre"
+        tools:layout="@layout/fragment_sobre" >
+        <action
+            android:id="@+id/action_sobreFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+</navigation>
