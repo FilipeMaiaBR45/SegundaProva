@@ -21,4 +21,8 @@ class EstadoRepository(private val estadoDao : EstadoDao) {
        return estadoDao.listEstadoById(id)
     }
 
+    suspend fun deleteEstadoById (id : Long){
+        return estadoDao.deleteEstadoById(id)
+    }
+
 }

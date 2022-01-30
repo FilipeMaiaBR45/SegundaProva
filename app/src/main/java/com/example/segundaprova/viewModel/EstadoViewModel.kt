@@ -51,5 +51,14 @@ class EstadoViewModel(application: Application) : AndroidViewModel(application) 
             _currentItem.value = repository.listEstadoById(id)
         }
 
+
+    }
+
+    fun deletEstadoById(id: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteEstadoById(id)
+        }
+
+
     }
 }

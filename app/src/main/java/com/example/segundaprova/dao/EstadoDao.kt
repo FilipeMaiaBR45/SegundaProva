@@ -21,4 +21,7 @@ interface EstadoDao {
 
     @Query("SELECT * FROM estado WHERE id = :id ")
     fun listEstadoById(id : Long) : Estado
+
+    @Query("DELETE FROM estado WHERE id = :id ")
+    fun deleteEstadoById(id : Long)
 }
