@@ -6,7 +6,7 @@ import com.example.segundaprova.model.Post
 
 class EstadoRemoteRepository {
 
-    suspend fun getEstado() : ArrayList<Estado> {
+    suspend fun getEstado() : List<Estado> {
         return RetrofitInstance.api.getPost()
     }
 }

@@ -1,12 +1,15 @@
 package com.example.segundaprova.fragments.home
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +22,7 @@ import com.example.segundaprova.databinding.FragmentHomeBinding
 import com.example.segundaprova.fragments.detalhe.DetalhesViewModel
 import com.example.segundaprova.model.Estado
 import com.example.segundaprova.repository.EstadoRemoteRepository
+import com.example.segundaprova.utils.NetworkChecker
 import com.example.segundaprova.viewModel.EstadoRemoteViewModel
 import com.example.segundaprova.viewModel.EstadoViewModel
 import com.example.segundaprova.viewModel.MainViewModelFactory
@@ -29,8 +33,12 @@ class HomeFragment : Fragment() {
     //lateinit var floatButton : View
     lateinit var binding: FragmentHomeBinding
     private lateinit var estadoViewModel: EstadoViewModel
-    private lateinit var viewModelRemote : EstadoRemoteViewModel
+    private lateinit var viewModelRemote: EstadoRemoteViewModel
     private var estadoList = emptyList<Estado>()
+
+    private val networkChecker by lazy {
+        NetworkChecker(getSystemService(requireContext(), ConnectivityManager::class.java))
+    }
 
 
     override fun onCreateView(
@@ -38,6 +46,8 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         val listAdapter = ListAdapter()
@@ -58,28 +68,78 @@ class HomeFragment : Fragment() {
         //EstadoRemoteViewModel
         val repository = EstadoRemoteRepository()
         val viewModelFactory = MainViewModelFactory(repository)
-        viewModelRemote = ViewModelProvider(this, viewModelFactory).get(EstadoRemoteViewModel::class.java)
-        viewModelRemote.getEstado()
+        viewModelRemote =
+            ViewModelProvider(this, viewModelFactory).get(EstadoRemoteViewModel::class.java)
 
-        viewModelRemote.myResponse.observe(this, Observer { response ->
-            for (i in 0 until response.size ) {
-                Log.i("RESPONSE", "${response[i].id}")
-                Log.i("RESPONSE", "${response[i].unidadeFederativa}")
-                Log.i("RESPONSE", "${response[i].abreviacao}")
-                Log.i("RESPONSE", "${response[i].capital}")
-                Log.i("RESPONSE", "${response[i].area}")
-                Log.i("RESPONSE", "${response[i].populacao}")
-                Log.i("RESPONSE", "${response[i].pib}")
+
+
+        networkChecker.performActionIfConnectc {
+
+            binding.SwipeRefreshLayout.isRefreshing = false
+
+            viewModelRemote.getEstado()
+
+            viewModelRemote.myResponse.observe(this, Observer { response ->
+                viewModelRemote.getEstado()
+
+                adapter.setData(response)
+
+                for(i in 0 until response.size){
+                    Log.i("RESPONSE", "${response[i].unidadeFederativa}")
+                }
+
+            })
+
+        }
+
+        binding.SwipeRefreshLayout.setOnRefreshListener {
+
+            binding.SwipeRefreshLayout.isRefreshing = true
+            networkChecker.performActionIfConnectc {
+                viewModelRemote.getEstado()
+
+                viewModelRemote.myResponse.observe(this, Observer { response ->
+
+                    adapter.setData(response)
+
+                })
+
             }
-
-        })
+            binding.SwipeRefreshLayout.isRefreshing = false
+        }
 
 
         //EstadoViewModel
         estadoViewModel = ViewModelProvider(this).get(EstadoViewModel::class.java)
-        estadoViewModel.readAllData.observe(viewLifecycleOwner, Observer { estado ->
-            adapter.setData(estado)
-        })
+
+        networkChecker.performActionIfNotConnectc {
+
+            estadoViewModel.readAllData.observe(viewLifecycleOwner, Observer { estado ->
+                adapter.setData(estado)
+            })
+        }
+
+
+        binding.SwipeRefreshLayout.setOnRefreshListener {
+            binding.SwipeRefreshLayout.isRefreshing = false
+
+            networkChecker.performActionIfNotConnectc {
+
+                binding.SwipeRefreshLayout.isRefreshing = true
+
+                networkChecker.performActionIfNotConnectc {
+
+                    estadoViewModel.readAllData.observe(viewLifecycleOwner, Observer { estado ->
+                        adapter.setData(estado)
+                    })
+
+                }
+
+                binding.SwipeRefreshLayout.isRefreshing = false
+            }
+
+
+        }
 
 
 
@@ -92,7 +152,13 @@ class HomeFragment : Fragment() {
 
 
                     override fun onItemClick(view: View, position: Int) {
-                        Navigation.findNavController(binding.recyclerview).navigate(HomeFragmentDirections.actionHomeFragmentToDetalhesFragment(adapter.getItemId(position)))
+                        Navigation.findNavController(binding.recyclerview).navigate(
+                            HomeFragmentDirections.actionHomeFragmentToDetalhesFragment(
+                                adapter.getItemId(
+                                    position
+                                )
+                            )
+                        )
 
 
                         Toast.makeText(
@@ -105,7 +171,13 @@ class HomeFragment : Fragment() {
 
 
                     override fun onItemLongClick(view: View, position: Int) {
-         Navigation.findNavController(binding.recyclerview).navigate(HomeFragmentDirections.actionHomeFragmentToAlteraFragment(adapter.getItemId(position)))
+                        Navigation.findNavController(binding.recyclerview).navigate(
+                            HomeFragmentDirections.actionHomeFragmentToAlteraFragment(
+                                adapter.getItemId(
+                                    position
+                                )
+                            )
+                        )
                     }
                 })
         )
@@ -125,7 +197,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.opcao_menu_ajuda){
+        if (item.itemId == R.id.opcao_menu_ajuda) {
             Toast.makeText(context, "Ajuda da tela de Home", Toast.LENGTH_SHORT)
         }
 

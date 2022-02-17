@@ -14,12 +14,12 @@ import okhttp3.Dispatcher
 
 class EstadoRemoteViewModel(private val repository: EstadoRemoteRepository) : ViewModel() {
 
-    val myResponse: MutableLiveData<ArrayList<Estado>> = MutableLiveData()
+    val myResponse: MutableLiveData<List<Estado>> = MutableLiveData()
 
     fun getEstado() {
         viewModelScope.launch(Dispatchers.IO) {
             viewModelScope.launch {
-                val response: ArrayList<Estado> = repository.getEstado()
+                val response: List<Estado> = repository.getEstado()
                 myResponse.value = response
             }
         }
