@@ -46,13 +46,13 @@ class EstadoViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun listEstadoById(id: Long) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _currentItem.value = repository.listEstadoById(id)
-        }
-
-
-    }
+//    fun listEstadoById(id: Long) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            _currentItem.value = repository.listEstadoById(id)
+//        }
+//
+//
+//    }
 
     fun deletEstadoById(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -61,4 +61,5 @@ class EstadoViewModel(application: Application) : AndroidViewModel(application) 
 
 
     }
+
 }

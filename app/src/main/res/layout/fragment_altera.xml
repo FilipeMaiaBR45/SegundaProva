@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+<variable
+    name="viewmodel"
+    type="com.example.segundaprova.fragments.altera.AlteraViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="128dp"
             android:ems="10"
+            android:text="@={viewmodel.estado.unidadeFederativa}"
             android:hint="União federal"
             android:inputType="textPersonName"
             android:minHeight="48dp"
@@ -33,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:ems="10"
+            android:text="@={viewmodel.estado.abreviacao}"
             android:hint="Abreviação"
             android:inputType="textPersonName"
             android:minHeight="48dp"
@@ -46,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:ems="10"
+            android:text="@={viewmodel.estado.capital}"
             android:hint="Capital"
             android:inputType="textPersonName"
             android:minHeight="48dp"
@@ -60,6 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:ems="10"
+            android:text="@={viewmodel.estado.area+``}"
             android:inputType="numberDecimal"
             android:hint="Área (km²)"
             android:minHeight="48dp"
@@ -74,6 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:ems="10"
+            android:text="@={viewmodel.estado.populacao+``}"
             android:hint="População"
             android:inputType="number"
             android:minHeight="48dp"
@@ -88,6 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:ems="10"
+            android:text="@={viewmodel.estado.pib+``}"
             android:hint="Pib"
             android:inputType="number"
             android:minHeight="48dp"

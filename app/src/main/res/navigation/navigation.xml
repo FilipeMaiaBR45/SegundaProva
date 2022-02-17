@@ -17,8 +17,8 @@
             android:id="@+id/action_homeFragment_to_alteraFragment"
             app:destination="@id/alteraFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_sobreFragment"
-            app:destination="@id/sobreFragment" />
+            android:id="@+id/action_homeFragment_to_detalhesFragment"
+            app:destination="@id/detalhesFragment" />
     </fragment>
     <fragment
         android:id="@+id/cadastraFragment"
@@ -37,16 +37,20 @@
             android:id="@+id/action_alteraFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
         <argument
-            android:name="currentEstado"
-            app:argType="com.example.segundaprova.model.Estado" />
+            android:name="id"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/detalhesFragment"
+        android:name="com.example.segundaprova.fragments.detalhe.DetalhesFragment"
+        android:label="DetalhesFragment" >
+        <argument
+            android:name="id"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/sobreFragment"
-        android:name="com.example.segundaprova.SobreFragment"
-        android:label="Sobre"
-        tools:layout="@layout/fragment_sobre" >
-        <action
-            android:id="@+id/action_sobreFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
+        android:name="com.example.segundaprova.fragments.sobre.SobreFragment"
+        android:label="fragment_sobre"
+        tools:layout="@layout/fragment_sobre" />
 </navigation>

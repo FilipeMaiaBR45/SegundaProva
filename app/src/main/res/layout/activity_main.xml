@@ -32,8 +32,9 @@
 
             <com.google.android.material.navigation.NavigationView
                 android:id="@+id/navView"
-                app:menu="@menu/menu_frag"
+                app:menu="@menu/menu_primcipal"
                 android:layout_gravity="start"
+                app:headerLayout="@layout/layout_gaveta"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 

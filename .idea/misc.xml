@@ -10,12 +10,17 @@
         <entry key="..\:/Users/filip/AndroidStudioProjects/SegundaProva/app/src/main/res/layout/custom_row.xml" value="0.25" />
         <entry key="..\:/Users/filip/AndroidStudioProjects/SegundaProva/app/src/main/res/layout/fragment_altera.xml" value="0.3033175355450237" />
         <entry key="..\:/Users/filip/AndroidStudioProjects/SegundaProva/app/src/main/res/layout/fragment_cadastra.xml" value="0.19270833333333334" />
+        <entry key="..\:/Users/filip/AndroidStudioProjects/SegundaProva/app/src/main/res/layout/fragment_detalhes.xml" value="0.209375" />
+        <entry key="..\:/Users/filip/AndroidStudioProjects/SegundaProva/app/src/main/res/layout/fragment_detalhes2.xml" value="0.5" />
         <entry key="..\:/Users/filip/AndroidStudioProjects/SegundaProva/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/filip/AndroidStudioProjects/SegundaProva/app/src/main/res/layout/fragment_slideshow.xml" value="0.209375" />
         <entry key="..\:/Users/filip/AndroidStudioProjects/SegundaProva/app/src/main/res/layout/fragment_sobre.xml" value="0.22" />
         <entry key="..\:/Users/filip/AndroidStudioProjects/SegundaProva/app/src/main/res/layout/fragment_sobre2.xml" value="0.209375" />
+        <entry key="..\:/Users/filip/AndroidStudioProjects/SegundaProva/app/src/main/res/layout/layout_gaveta.xml" value="0.209375" />
         <entry key="..\:/Users/filip/AndroidStudioProjects/SegundaProva/app/src/main/res/layout/nav_header_main.xml" value="0.209375" />
+        <entry key="..\:/Users/filip/AndroidStudioProjects/SegundaProva/app/src/main/res/menu/ajuda.xml" value="0.1" />
         <entry key="..\:/Users/filip/AndroidStudioProjects/SegundaProva/app/src/main/res/menu/menu_frag.xml" value="0.209375" />
+        <entry key="..\:/Users/filip/AndroidStudioProjects/SegundaProva/app/src/main/res/menu/menu_primcipal.xml" value="0.209375" />
       </map>
     </option>
   </component>

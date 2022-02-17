@@ -17,7 +17,7 @@ class EstadoRepository(private val estadoDao : EstadoDao) {
         estadoDao.update(estado)
     }
 
-    suspend fun listEstadoById (id : Long) : Estado {
+    suspend fun listEstadoById (id : Long) : LiveData<Estado> {
        return estadoDao.listEstadoById(id)
     }
 

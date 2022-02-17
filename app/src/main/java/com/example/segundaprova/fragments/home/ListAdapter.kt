@@ -42,15 +42,16 @@ class ListAdapter() : RecyclerView.Adapter<ListViewHolder>() {
         holder.textViewUf.text = currentItem.unidadeFederativa
         holder.textViewAbreviacao.text = currentItem.abreviacao
 
-//
-        holder.rowLayout.setOnClickListener {
-             val action = HomeFragmentDirections.actionHomeFragmentToAlteraFragment(currentItem)
-             holder.itemView.findNavController().navigate(action)
 
-        }
 
     }
 
+
+   override fun getItemId(position: Int) : Long {
+        var id =  estadoList[position].id
+
+        return id
+    }
 
     fun setData(estado : List<Estado>){
         this.estadoList = estado

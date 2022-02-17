@@ -52,7 +52,7 @@ class CadastraFragment : Fragment() {
 
             estadoViewModel.addEstado(estado)
             Toast.makeText(requireContext(), "Estado adicionado com sucesso!!", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_cadastraFragment_to_homeFragment)
+            findNavController().navigate(CadastraFragmentDirections.actionCadastraFragmentToHomeFragment())
         } else {
             Toast.makeText(
                 requireContext(),

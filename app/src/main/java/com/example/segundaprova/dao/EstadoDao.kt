@@ -20,7 +20,7 @@ interface EstadoDao {
     fun listAll(): LiveData<List<Estado>>
 
     @Query("SELECT * FROM estado WHERE id = :id ")
-    fun listEstadoById(id : Long) : Estado
+    fun listEstadoById(id : Long) : LiveData<Estado>
 
     @Query("DELETE FROM estado WHERE id = :id ")
     fun deleteEstadoById(id : Long)
