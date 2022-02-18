@@ -22,7 +22,7 @@ class EstadoViewModel(application: Application) : AndroidViewModel(application) 
 
 
 
-    private val repository: EstadoRepository
+    val repository: EstadoRepository
 
 
 
@@ -37,6 +37,12 @@ class EstadoViewModel(application: Application) : AndroidViewModel(application) 
     fun addEstado(estado: Estado) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addEstado(estado)
+        }
+    }
+
+    fun addEstadoRemote(estado: List<Estado>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.addEstadoRemote(estado)
         }
     }
 

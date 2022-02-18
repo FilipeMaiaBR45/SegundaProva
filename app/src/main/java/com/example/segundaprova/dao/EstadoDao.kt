@@ -10,6 +10,9 @@ interface EstadoDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(estado: Estado)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertRemote(estado: List<Estado>)
+
     @Delete
     fun delete(estado: Estado)
 

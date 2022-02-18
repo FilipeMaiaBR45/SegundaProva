@@ -72,6 +72,10 @@ class HomeFragment : Fragment() {
             ViewModelProvider(this, viewModelFactory).get(EstadoRemoteViewModel::class.java)
 
 
+        //EstadoViewModel
+        estadoViewModel = ViewModelProvider(this).get(EstadoViewModel::class.java)
+
+
 
         networkChecker.performActionIfConnectc {
 
@@ -80,37 +84,35 @@ class HomeFragment : Fragment() {
             viewModelRemote.getEstado()
 
             viewModelRemote.myResponse.observe(this, Observer { response ->
+
+                estadoViewModel.addEstadoRemote(response)
+
                 viewModelRemote.getEstado()
 
                 adapter.setData(response)
-
-                for(i in 0 until response.size){
-                    Log.i("RESPONSE", "${response[i].unidadeFederativa}")
-                }
 
             })
 
         }
 
-        binding.SwipeRefreshLayout.setOnRefreshListener {
+//        binding.SwipeRefreshLayout.setOnRefreshListener {
+//
+//            binding.SwipeRefreshLayout.isRefreshing = true
+//            networkChecker.performActionIfConnectc {
+//                viewModelRemote.getEstado()
+//
+//                viewModelRemote.myResponse.observe(this, Observer { response ->
+//
+//                    adapter.setData(response)
+//
+//                })
+//
+//            }
+//            binding.SwipeRefreshLayout.isRefreshing = false
+//        }
 
-            binding.SwipeRefreshLayout.isRefreshing = true
-            networkChecker.performActionIfConnectc {
-                viewModelRemote.getEstado()
-
-                viewModelRemote.myResponse.observe(this, Observer { response ->
-
-                    adapter.setData(response)
-
-                })
-
-            }
-            binding.SwipeRefreshLayout.isRefreshing = false
-        }
 
 
-        //EstadoViewModel
-        estadoViewModel = ViewModelProvider(this).get(EstadoViewModel::class.java)
 
         networkChecker.performActionIfNotConnectc {
 
@@ -120,26 +122,26 @@ class HomeFragment : Fragment() {
         }
 
 
-        binding.SwipeRefreshLayout.setOnRefreshListener {
-            binding.SwipeRefreshLayout.isRefreshing = false
-
-            networkChecker.performActionIfNotConnectc {
-
-                binding.SwipeRefreshLayout.isRefreshing = true
-
-                networkChecker.performActionIfNotConnectc {
-
-                    estadoViewModel.readAllData.observe(viewLifecycleOwner, Observer { estado ->
-                        adapter.setData(estado)
-                    })
-
-                }
-
-                binding.SwipeRefreshLayout.isRefreshing = false
-            }
-
-
-        }
+//        binding.SwipeRefreshLayout.setOnRefreshListener {
+//            binding.SwipeRefreshLayout.isRefreshing = false
+//
+//            networkChecker.performActionIfNotConnectc {
+//
+//                binding.SwipeRefreshLayout.isRefreshing = true
+//
+//                networkChecker.performActionIfNotConnectc {
+//
+//                    estadoViewModel.readAllData.observe(viewLifecycleOwner, Observer { estado ->
+//                        adapter.setData(estado)
+//                    })
+//
+//                }
+//
+//                binding.SwipeRefreshLayout.isRefreshing = false
+//            }
+//
+//
+//        }
 
 
 

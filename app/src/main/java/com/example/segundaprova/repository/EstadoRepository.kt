@@ -13,6 +13,10 @@ class EstadoRepository(private val estadoDao : EstadoDao) {
         estadoDao.insert(estado)
     }
 
+    suspend fun addEstadoRemote (estado: List<Estado>){
+        estadoDao.insertRemote(estado)
+    }
+
     suspend fun updateEstado( estado: Estado){
         estadoDao.update(estado)
     }
