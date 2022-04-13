@@ -13,6 +13,12 @@ class AlteraViewModel(application: Application, id: Long) :AndroidViewModel(appl
 
     lateinit var estado : LiveData<Estado>
 
+    private var _eventAlteraEstado = MutableLiveData<Boolean>(false)
+    val eventAlteraEstado : LiveData<Boolean>
+    get() = _eventAlteraEstado
+
+
+
     private val repository: EstadoRepository
 
 
@@ -30,7 +36,15 @@ class AlteraViewModel(application: Application, id: Long) :AndroidViewModel(appl
            repository.updateEstado(estado.value!!)
         }
 
+        _eventAlteraEstado.value = true
+
     }
+
+    fun onAlteraEstadoComplet(){
+        _eventAlteraEstado.value = false
+    }
+
+
 
     class AlteraFragmentViewModelFactory(val application: Application, val id:Long) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

@@ -40,14 +40,22 @@ class AlteraFragment : Fragment() {
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
 
-        binding.buttonAtuallizarEstado.setOnClickListener {
+//        binding.buttonAtuallizarEstado.setOnClickListener {
+//
+//            viewModel.alterarEstado()
+//            Navigation.findNavController(it).navigate(AlteraFragmentDirections.actionAlteraFragmentToHomeFragment())
+//        }
 
-            viewModel.alterarEstado()
-            Navigation.findNavController(it).navigate(AlteraFragmentDirections.actionAlteraFragmentToHomeFragment())
+
+        viewModel.eventAlteraEstado.observe(viewLifecycleOwner) {
+            if (it == true) {
+                Navigation.findNavController(requireView())
+                    .navigate(AlteraFragmentDirections.actionAlteraFragmentToHomeFragment())
+                //esta funcao eh para estar aqui e n fora do if como estava anteriormente no video de refactory
+                viewModel.onAlteraEstadoComplet()
+            }
+
         }
-
-
-
 
 
 
