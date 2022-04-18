@@ -83,13 +83,13 @@ class HomeFragment : Fragment() {
 
             viewModelRemote.getEstado()
 
-            viewModelRemote.myResponse.observe(this, Observer { response ->
+            viewModelRemote.myResponse.observe(viewLifecycleOwner, Observer { response ->
 
                 estadoViewModel.addEstadoRemote(response)
 
                 viewModelRemote.getEstado()
 
-                adapter.setData(response)
+                adapter.submitList(response)
 
             })
 
@@ -117,7 +117,7 @@ class HomeFragment : Fragment() {
         networkChecker.performActionIfNotConnectc {
 
             estadoViewModel.readAllData.observe(viewLifecycleOwner, Observer { estado ->
-                adapter.setData(estado)
+                adapter.submitList(estado)
             })
         }
 

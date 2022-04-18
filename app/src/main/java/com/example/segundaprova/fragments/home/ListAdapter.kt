@@ -1,66 +1,74 @@
 package com.example.segundaprova.fragments.home
 
-import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.ListFragment
+import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.segundaprova.R
+import com.example.segundaprova.databinding.CustomRowBinding
 import com.example.segundaprova.model.Estado
 
-class ListAdapter() : RecyclerView.Adapter<ListViewHolder>() {
-
-    private var estadoList = emptyList<Estado>()
-
-    var estadoListByid : LiveData<Estado>?
-
-    init {
-        estadoListByid = null
-    }
-
+class ListAdapter :
+    androidx.recyclerview.widget.ListAdapter<Estado, ListAdapter.ListViewHolder>(EstadoDiffCallBack()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.custom_row, parent, false)
-        return ListViewHolder(view)
+        return ListViewHolder.from(parent)
     }
-    override fun getItemCount(): Int {
-        return estadoList.size
-    }
-
-
 
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val currentItem = estadoList[position]
-        holder.textViewCapital.text = currentItem.capital
-        holder.textViewUf.text = currentItem.unidadeFederativa
-        holder.textViewAbreviacao.text = currentItem.abreviacao
-
-
-
+        val currentItem = currentList[position]
+        holder.bind(currentItem)
     }
 
 
-   override fun getItemId(position: Int) : Long {
-        var id =  estadoList[position].id
+    override fun getItemId(position: Int): Long {
+        var id = currentList[position].id
+        Log.i("idList", "$id")
 
         return id
+
     }
 
-    fun setData(estado : List<Estado>){
-        this.estadoList = estado
-        notifyDataSetChanged()
+    class ListViewHolder private constructor(var binding: CustomRowBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        companion object {
+            fun from(parent: ViewGroup): ListViewHolder {
+                val binding: CustomRowBinding = DataBindingUtil.inflate(
+                    LayoutInflater.from(parent.context),
+                    R.layout.custom_row,
+                    parent,
+                    false
+                )
+
+                return ListViewHolder(binding)
+            }
+        }
+
+
+        fun bind(currentItem: Estado) {
+            binding.estado = currentItem
+
+        }
+
+
     }
 
-    fun setEstadoListById(estado : LiveData<Estado>?){
-        this.estadoListByid = estado
-        notifyDataSetChanged()
+    class EstadoDiffCallBack : DiffUtil.ItemCallback<Estado>() {
+        override fun areItemsTheSame(oldItem: Estado, newItem: Estado): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Estado, newItem: Estado): Boolean {
+            return oldItem == newItem
+        }
 
     }
 }
