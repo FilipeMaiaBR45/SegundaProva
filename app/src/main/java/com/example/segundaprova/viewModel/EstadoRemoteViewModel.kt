@@ -13,17 +13,17 @@ import kotlinx.coroutines.launch
 import okhttp3.Dispatcher
 
 class EstadoRemoteViewModel(private val repository: EstadoRemoteRepository) : ViewModel() {
-
-    val myResponse: MutableLiveData<List<Estado>> = MutableLiveData()
-    //var list : LiveData<List<Estado>> = repository.list.asLiveData()
-
-    fun getEstado() {
-        viewModelScope.launch(Dispatchers.IO) {
-            viewModelScope.launch {
-                val response: List<Estado> = repository.getEstado()
-                myResponse.value = response
-            }
-        }
-    }
+//
+//    val myResponse: MutableLiveData<List<Estado>> = MutableLiveData()
+//    //var list : LiveData<List<Estado>> = repository.list.asLiveData()
+//
+//    fun getEstado() {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            viewModelScope.launch {
+//                val response: List<Estado> = repository.getEstado()
+//                myResponse.value = response
+//            }
+//        }
+//    }
 
 }

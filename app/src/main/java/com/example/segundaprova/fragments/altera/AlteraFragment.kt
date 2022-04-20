@@ -38,7 +38,7 @@ class AlteraFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory ).get(AlteraViewModel::class.java)
 
         binding.viewmodel = viewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
 //        binding.buttonAtuallizarEstado.setOnClickListener {
 //

@@ -1,25 +1,20 @@
 package com.example.segundaprova.fragments.home
 
-import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.segundaprova.R
+import com.example.segundaprova.SegundaProvaApplication
 import com.example.segundaprova.databinding.FragmentHomeBinding
-import com.example.segundaprova.fragments.detalhe.DetalhesViewModel
 import com.example.segundaprova.model.Estado
 import com.example.segundaprova.repository.EstadoRemoteRepository
 import com.example.segundaprova.utils.NetworkChecker
@@ -34,11 +29,13 @@ class HomeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
     private lateinit var estadoViewModel: EstadoViewModel
     private lateinit var viewModelRemote: EstadoRemoteViewModel
+    private lateinit var homeViewModel: HomeViewModel
     private var estadoList = emptyList<Estado>()
 
     private val networkChecker by lazy {
         NetworkChecker(getSystemService(requireContext(), ConnectivityManager::class.java))
     }
+
 
 
     override fun onCreateView(
@@ -50,6 +47,16 @@ class HomeFragment : Fragment() {
 
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+
+        val factory = HomeViewModel.Factory(
+            (requireActivity().application as SegundaProvaApplication).repositoryRemote,
+            (requireActivity().application as SegundaProvaApplication).repositoryLocal
+        )
+        homeViewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
+
+
+
+
         val listAdapter = ListAdapter()
 
         binding.floatingActionButton.setOnClickListener {
@@ -81,13 +88,16 @@ class HomeFragment : Fragment() {
 
             binding.SwipeRefreshLayout.isRefreshing = false
 
-            viewModelRemote.getEstado()
+            homeViewModel.getEstadoRemote()
 
-            viewModelRemote.myResponse.observe(viewLifecycleOwner, Observer { response ->
 
-                estadoViewModel.addEstadoRemote(response)
+            homeViewModel.listRemote.observe(viewLifecycleOwner, Observer { response ->
 
-                viewModelRemote.getEstado()
+                homeViewModel.getEstadoRemote()
+
+                homeViewModel.addEstadoRemote(response)
+
+                //homeViewModel.getEstadoRemote()
 
                 adapter.submitList(response)
 
@@ -112,11 +122,9 @@ class HomeFragment : Fragment() {
 //        }
 
 
-
-
         networkChecker.performActionIfNotConnectc {
 
-            estadoViewModel.readAllData.observe(viewLifecycleOwner, Observer { estado ->
+            homeViewModel.listLocal.observe(viewLifecycleOwner, Observer { estado ->
                 adapter.submitList(estado)
             })
         }
@@ -142,8 +150,6 @@ class HomeFragment : Fragment() {
 //
 //
 //        }
-
-
 
 
         binding.recyclerview.addOnItemTouchListener(

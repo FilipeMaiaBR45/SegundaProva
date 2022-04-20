@@ -2,12 +2,16 @@ package com.example.segundaprova.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
+import com.example.segundaprova.api.RetrofitInstance
 import com.example.segundaprova.dao.EstadoDao
 import com.example.segundaprova.model.Estado
+import kotlinx.coroutines.flow.Flow
 
 class EstadoRepository(private val estadoDao : EstadoDao) {
 
-    val realAllData : LiveData<List<Estado>> = estadoDao.listAll()
+    val realAllData : Flow<List<Estado>> = estadoDao.listAll()
+
 
     suspend fun addEstado (estado: Estado){
         estadoDao.insert(estado)

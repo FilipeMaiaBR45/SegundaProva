@@ -7,6 +7,6 @@ import retrofit2.http.GET
 interface SimpleApi {
 
     @GET("/api/v1/state/")
-    fun getPost() : Flow<List<Estado>>
+    suspend fun getPost() : List<Estado>
 
 }
