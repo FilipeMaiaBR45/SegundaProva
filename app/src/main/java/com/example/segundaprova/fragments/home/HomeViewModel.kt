@@ -10,7 +10,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class HomeViewModel(repositoryRemote: EstadoRemoteRepository, repositoryLocal : EstadoRepository) : ViewModel() {
+class HomeViewModel(repositoryRemote: EstadoRemoteRepository, repositoryLocal: EstadoRepository) :
+    ViewModel() {
 
     val repositoryLocal = repositoryLocal
     val repositoryRemote = repositoryRemote
@@ -18,21 +19,21 @@ class HomeViewModel(repositoryRemote: EstadoRemoteRepository, repositoryLocal : 
     //var listRemote : LiveData<List<Estado>> = repositoryRemote.getEstado().asLiveData()
 
     private val _listRemote: MutableLiveData<List<Estado>> = MutableLiveData()
-    val listRemote : LiveData<List<Estado>> = _listRemote
+    val listRemote: LiveData<List<Estado>> = _listRemote
 
     //var list : LiveData<List<Estado>> = repository.list.asLiveData()
 
     fun getEstadoRemote() {
-        viewModelScope.launch(Dispatchers.IO) {
-            viewModelScope.launch {
-                 repositoryRemote.getEstado().collect {
-                     _listRemote.value = it
-                 }
+        viewModelScope.launch() {
+
+            repositoryRemote.estados.collect {
+                _listRemote.value = it
             }
+
         }
     }
 
-    var listLocal : LiveData<List<Estado>> = repositoryLocal.realAllData.asLiveData()
+    var listLocal: LiveData<List<Estado>> = repositoryLocal.realAllData.asLiveData()
 
     fun addEstado(estado: Estado) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -51,7 +52,6 @@ class HomeViewModel(repositoryRemote: EstadoRemoteRepository, repositoryLocal : 
             repositoryLocal.updateEstado(estado)
         }
     }
-
 
 
     fun deletEstadoById(id: Long) {
@@ -82,11 +82,10 @@ class HomeViewModel(repositoryRemote: EstadoRemoteRepository, repositoryLocal : 
 //    }
 
 
-
-
-
-
- class Factory(val repositoryRemote: EstadoRemoteRepository, val repopsitoryLocal : EstadoRepository) : ViewModelProvider.Factory {
+    class Factory(
+        val repositoryRemote: EstadoRemoteRepository,
+        val repopsitoryLocal: EstadoRepository
+    ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
                 return HomeViewModel(repositoryRemote, repopsitoryLocal) as T
